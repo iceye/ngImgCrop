@@ -114,8 +114,18 @@ crop.factory('cropCanvas', [function() {
       ctx.clip();
 
       // draw part of original image
-      if (size.w > 0 && size.w > 0) {
-          ctx.drawImage(image, xLeft*xRatio, yTop*yRatio, size.w*xRatio, size.h*yRatio, xLeft, yTop, size.w, size.h);
+      if (size.w > 0 && size.h > 0) {
+          var calcW = size.w*xRatio,
+              calcH = size.h*yRatio;
+
+          if (calcW > image.width) {
+              calcW = image.width;
+          }
+          if (calcH > image.height) {
+              calcH = image.height;
+          }
+
+          ctx.drawImage(image, xLeft*xRatio, yTop*yRatio, calcW, calcH, xLeft, yTop, size.w, size.h);
       }
 
       ctx.beginPath();
