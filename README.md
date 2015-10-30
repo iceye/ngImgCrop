@@ -1,5 +1,11 @@
 # ngImgCrop
 
+PROJECT IS NO LONGER MANTAINED BUT IS A GOOD START IF YOU NEED THIS STUFF IN YOU PROJECT ;)
+
+
+
+
+
 Simple Image Crop directive for AngularJS. Enables to crop a circle or a square out of an image.
 
 ## Screenshots
