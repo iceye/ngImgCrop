@@ -771,8 +771,18 @@ crop.factory('cropCanvas', [function() {
       ctx.clip();
 
       // draw part of original image
-      if (size.w > 0 && size.w > 0) {
-          ctx.drawImage(image, xLeft*xRatio, yTop*yRatio, size.w*xRatio, size.h*yRatio, xLeft, yTop, size.w, size.h);
+      if (size.w > 0 && size.h > 0) {
+          var calcW = size.w*xRatio,
+              calcH = size.h*yRatio;
+
+          if (calcW > image.width) {
+              calcW = image.width;
+          }
+          if (calcH > image.height) {
+              calcH = image.height;
+          }
+
+          ctx.drawImage(image, xLeft*xRatio, yTop*yRatio, calcW, calcH, xLeft, yTop, size.w, size.h);
       }
 
       ctx.beginPath();
@@ -955,7 +965,17 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       var retObj = {dataURI: null,
                     imageData: null};
       if(image!==null){
-        temp_ctx.drawImage(image, (center.x-theArea.getSize().w/2)*(image.width/ctx.canvas.width), (center.y-theArea.getSize().h/2)*(image.height/ctx.canvas.height), theArea.getSize().w*(image.width/ctx.canvas.width), theArea.getSize().h*(image.height/ctx.canvas.height), 0, 0, ris.w, ris.h);
+          var calcW = theArea.getSize().w*(image.width/ctx.canvas.width),
+              calcH = theArea.getSize().h*(image.height/ctx.canvas.height);
+
+          if (calcW > image.width) {
+              calcW = image.width;
+          }
+          if (calcH > image.height) {
+              calcH = image.height;
+          }
+          temp_ctx.drawImage(image, (center.x-theArea.getSize().w/2)*(image.width/ctx.canvas.width), (center.y-theArea.getSize().h/2)*(image.height/ctx.canvas.height), calcW, calcH, 0, 0, ris.w, ris.h);
+
         retObj.dataURI = temp_canvas.toDataURL();
         retObj.imageData = temp_canvas.getContext("2d").getImageData(0, 0, temp_canvas.width, temp_canvas.height);
         retObj.imageSize= {
